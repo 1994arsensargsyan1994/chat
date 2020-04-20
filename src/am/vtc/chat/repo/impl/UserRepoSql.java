@@ -28,8 +28,8 @@ public class UserRepoSql implements UserRepo {
         user.setId(resultSet.getInt("id"));
         user.setName(resultSet.getString("name"));
         user.setSurname(resultSet.getString("surname"));
-        user.setSurname(resultSet.getString("email"));
-        user.setSurname(resultSet.getString("password"));
+        user.setEmail(resultSet.getString("email"));
+        user.setPassword(resultSet.getString("password"));
         return user;
     }
 
