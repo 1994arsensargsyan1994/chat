@@ -1,24 +1,23 @@
 package am.vtc.chat.servlet;
 
 import am.vtc.chat.model.User;
+import am.vtc.chat.repo.impl.UserRepoSql;
 import am.vtc.chat.service.UserService;
 import am.vtc.chat.service.UserServiceImpl;
 import am.vtc.chat.util.DataValidator;
+import am.vtc.chat.util.DatabaseConnectionFactory;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
 
 
-public class RegisterServlet extends HttpServlet {
-    private UserService userService;
+public class RegisterServlet extends BaseServlet {
 
-    @Override
-    public void init() throws ServletException {
-        this.userService = new UserServiceImpl();
-    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -32,17 +31,18 @@ public class RegisterServlet extends HttpServlet {
         try {
             if (validator.isValid()) {
                 User user = validator.getEntity();
-                if (false) {                               //this.userService.userExist(user.getEmail())
-                    req.setAttribute("errorEmail","user already exist");
-                }else {
-                  //  TODO save user and to login page
-             //       this.userService.save(user)
-                    req.getSession().setAttribute("successfully","user successfully registered.");
+                if (this.userService.userExist(user.getEmail())) {
+                    req.setAttribute("errorEmail", "user already exist");
+                } else {
+                    //  TODO save user and to login page
+                    this.userService.save(user);
+
+                    req.getSession().setAttribute("successfully", "user successfully registered.");
                     resp.sendRedirect("/login");
                     return;
                 }
             }
-                req.getRequestDispatcher("WEB-INF/register.jsp").forward(req, resp);
+            req.getRequestDispatcher("WEB-INF/register.jsp").forward(req, resp);
         } catch (Exception e) {
             e.printStackTrace();
             resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
@@ -86,6 +86,7 @@ public class RegisterServlet extends HttpServlet {
             user.setSurname(surname);
             user.setEmail(email);
             user.setPassword(password);
+            validator.setEntity(user);
         }
         return validator;
 
