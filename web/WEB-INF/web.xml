@@ -3,11 +3,22 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
          version="4.0">
-    
+
     <welcome-file-list>
-        <welcome-file>/login</welcome-file>
+        <welcome-file>/home</welcome-file>
     </welcome-file-list>
-    
+
+
+    <servlet>
+        <servlet-name>Home</servlet-name>
+        <servlet-class>am.vtc.chat.servlet.HomeServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Home</servlet-name>
+        <url-pattern>/home</url-pattern>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
+
     <servlet>
         <servlet-name>Register</servlet-name>
         <servlet-class>am.vtc.chat.servlet.RegisterServlet</servlet-class>
@@ -17,7 +28,6 @@
         <url-pattern>/register</url-pattern>
     </servlet-mapping>
 
-
     <servlet>
         <servlet-name>Login</servlet-name>
         <servlet-class>am.vtc.chat.servlet.LoginServlet</servlet-class>
@@ -25,6 +35,35 @@
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
         <url-pattern>/login</url-pattern>
-        <url-pattern>/</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>Logout</servlet-name>
+        <servlet-class>am.vtc.chat.servlet.LogoutServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Logout</servlet-name>
+        <url-pattern>/logout</url-pattern>
+    </servlet-mapping>
+
+    <filter>
+        <filter-name>AuthFilter</filter-name>
+        <filter-class>am.vtc.chat.filter.AuthFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>AuthFilter</filter-name>
+        <url-pattern>/home</url-pattern>
+        <url-pattern>/</url-pattern>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>LoginRegister</filter-name>
+        <filter-class>am.vtc.chat.filter.LoginRegisterFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>LoginRegister</filter-name>
+        <url-pattern>/login</url-pattern>
+        <url-pattern>/register</url-pattern>
+    </filter-mapping>
+
 </web-app>

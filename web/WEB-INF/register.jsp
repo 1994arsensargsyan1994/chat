@@ -19,6 +19,13 @@
             response.getWriter().write("</span>");
         }
     }
+%>  // this func exaples
+
+<%!
+    String getParamValue(HttpServletRequest request,String name){
+        String value = request.getParameter(name);
+        return  value == null ? "" : value;
+    }
 %>
 
 <form action="/register" method="post">
@@ -30,7 +37,7 @@
         <%=request.getAttribute("errorName")%></span>
     <%}%>
     <br>
-    <input id="name" name="name" type="text"/>
+    <input id="name" name="name" type="text" value="<%= getParamValue(request,"name")%>"/>
   <br>
     <label for="surname">Surname</label>
     <br>
@@ -39,8 +46,7 @@
         <%=request.getAttribute("errorSurname")%></span>
     <%}%>
     <br>
-    <input id="surname" name="surname" type="text"
-           placeholder=" <%=request.getAttribute("errorEmail")!= null ? request.getAttribute("errorEmail"): "Email"%>"/>
+    <input id="surname" name="surname" type="text" value="<%= getParamValue(request,"surname")%>"/>
     <br>
 
     <label for="email">Email</label>
@@ -50,7 +56,7 @@
         <%=request.getAttribute("errorEmail")%></span>
     <%}%>
     <br>
-    <input id="email" name="email" type="text"/>
+    <input id="email" name="email" type="text"value="<%= getParamValue(request,"email")%>"/>
     <br>
 
     <label for="password">Password</label>
